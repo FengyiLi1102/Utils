@@ -54,7 +54,7 @@ def main(args):
     n = 0
 
     for (cap_left_path, cap_right_path) in tqdm(list(zip(left_videos, right_videos))):
-        n_local = 0
+        n_local = 0  # count number of frames finally generated in the video
         myCapL = cv2.VideoCapture(cap_left_path)
         myCapR = cv2.VideoCapture(cap_right_path)
 
@@ -151,10 +151,6 @@ def main(args):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--sys",
-                        type=str,
-                        help="Decide backwards or forwards slash in paths",
-                        default="Linux")
     parser.add_argument("--video_L",
                         help="Path to all the videos from left view required to"
                              " be extracted frames",
