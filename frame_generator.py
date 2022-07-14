@@ -99,7 +99,7 @@ def main(args):
             frame_R = cv2.resize(frame_R, (640, 480))
 
             # Rectified
-            if args.reactified:
+            if args.rectified:
                 frame_L = cv2.remap(frame_L, mapL1, mapL2, cv2.INTER_LINEAR)
                 frame_R = cv2.remap(frame_R, mapR1, mapR2, cv2.INTER_LINEAR)
 
@@ -168,11 +168,11 @@ if __name__ == "__main__":
     parser.add_argument("--H",
                         type=int,
                         help="Height of the frame",
-                        default=480)
+                        default=256)
     parser.add_argument("--W",
                         type=int,
                         help="Width of the frame",
-                        default=640)
+                        default=512)
     parser.add_argument("--frame_per_sec",
                         type=int,
                         help="Number of frames extracted per second",
