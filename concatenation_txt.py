@@ -38,7 +38,7 @@ if __name__ == "__main__":
                         help="Output path for the generated file")
     parser.add_argument("--file_name",
                         type=str,
-                        default="out_file.txt",
+                        default="512_256_12k_mono.txt",
                         help="Output file name")
     parser.add_argument("--shuffle",
                         action="store_true",
