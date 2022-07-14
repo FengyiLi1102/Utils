@@ -1,8 +1,8 @@
 import os
-import numpy as onp
-import glob
-import cv2
 from datetime import datetime
+
+import cv2
+import numpy as onp
 
 
 def create_dir(path):
@@ -16,10 +16,7 @@ def filenames_generator(n, n_local, l_vid_name, r_vid_name, args):
     output_path = os.path.join(args.filenames_output_dir, f"{args.W}_{args.H}_{datetime.today().strftime('%Y-%m-%d')}")
     create_dir(output_path)
 
-    if args.sys != "Linux":
-        filenames_txt = open(os.path.join(output_path, l_vid_name + "_win.txt"), "w")
-    else:
-        filenames_txt = open(os.path.join(output_path, l_vid_name + ".txt"), "w")
+    filenames_txt = open(os.path.join(output_path, l_vid_name + ".txt"), "w")
 
     # Shuffle the indexes or not
     indexes_list = onp.arange(n - n_local + 1, n)
@@ -28,9 +25,9 @@ def filenames_generator(n, n_local, l_vid_name, r_vid_name, args):
 
     # Write the image names into the txt file for further training
     for i in indexes_list:
-        filenames_txt.write(path_generator("left", l_vid_name, f"img_{i}_left.png", type=args.sys))
+        filenames_txt.write(path_generator("left", l_vid_name, f"img_{i}_left.png"))
         filenames_txt.write(" ")
-        filenames_txt.write(path_generator("right", r_vid_name, f"img_{i}_right.png", type=args.sys))
+        filenames_txt.write(path_generator("right", r_vid_name, f"img_{i}_right.png"))
         filenames_txt.write("\n")
 
     filenames_txt.close()
@@ -40,10 +37,7 @@ def filenames_generator_mono(n, n_local, l_vid_name, r_vid_name, args):
     output_path = os.path.join(args.filenames_output_dir, f"{args.W}_{args.H}_{datetime.today().strftime('%Y-%m-%d')}")
     create_dir(output_path)
 
-    if args.sys != "Linux":
-        filenames_txt = open(os.path.join(output_path, l_vid_name + "_win.txt"), "w")
-    else:
-        filenames_txt = open(os.path.join(output_path, l_vid_name + ".txt"), "w")
+    filenames_txt = open(os.path.join(output_path, l_vid_name + ".txt"), "w")
 
     # Shuffle the indexes or not
     indexes_list = onp.arange(n - n_local + 1, n)
@@ -54,14 +48,14 @@ def filenames_generator_mono(n, n_local, l_vid_name, r_vid_name, args):
 
     # Write the image names into the txt file for further training
     for (i_img, i_index) in zip(indexes_list, indexes_indexes):
-        txt_write(args.sys, filenames_txt, i_img, i_index, l_vid_name, "left")
-        txt_write(args.sys, filenames_txt, i_img, i_index, r_vid_name, "right")
+        txt_write(filenames_txt, i_img, i_index, l_vid_name, "left")
+        txt_write(filenames_txt, i_img, i_index, r_vid_name, "right")
 
     filenames_txt.close()
 
 
-def txt_write(sys, filenames_txt, i_img, i_index, l_vid_name, position):
-    filenames_txt.write(path_generator(position, l_vid_name, f"img_{i_img}_{position}", type=sys))
+def txt_write(filenames_txt, i_img, i_index, l_vid_name, position):
+    filenames_txt.write(path_generator(position, l_vid_name, f"img_{i_img}_{position}"))
     filenames_txt.write(" ")
     filenames_txt.write(str(i_index))
     filenames_txt.write(" ")
@@ -69,11 +63,8 @@ def txt_write(sys, filenames_txt, i_img, i_index, l_vid_name, position):
     filenames_txt.write("\n")
 
 
-def path_generator(direction, vid_name, img_name, type="Linux"):
-    if type == "Linux":
-        return os.path.join(direction, vid_name, img_name)
-    else:
-        return f"{direction}\\" + vid_name + "\\" + img_name
+def path_generator(direction, vid_name, img_name):
+    return os.path.join(direction, vid_name, img_name)
 
 
 def remove_timestamp(img, direction, args):
@@ -86,7 +77,7 @@ def remove_timestamp(img, direction, args):
         if direction == "L":
             raise NotImplementedError
         else:
-            raise NotImplementedError  
+            raise NotImplementedError
 
     mask = onp.zeros(img.shape, dtype=onp.uint8)
     cv2.fillPoly(mask, pts=[contours], color=(255, 255, 255))
