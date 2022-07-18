@@ -73,9 +73,11 @@ def remove_timestamp(img, direction, args):
             contours = onp.array([(181, 9), (183, 12), (223, 5), (221, 2)])
     elif args.W == 640 and args.H == 480:
         if direction == "L":
-            raise NotImplementedError
+            contours = onp.array([(208, 52), (212, 63), (308, 34), (305, 23)])
         else:
-            raise NotImplementedError
+            contours = onp.array([(227, 17), (229, 24), (278, 10), (276, 4)])
+    else:
+        raise ValueError
 
     mask = onp.zeros(img.shape, dtype=onp.uint8)
     cv2.fillPoly(mask, pts=[contours], color=(255, 255, 255))
