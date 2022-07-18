@@ -19,7 +19,7 @@ def main(args):
     funcs.create_dir(args.output_path)
     file_path = os.path.join(args.output_path, args.file_name)
     with open(file_path, 'wb') as wfd:
-        files = glob.glob(args.txt_path)
+        files = sorted(glob.glob(args.txt_path))
         print(f"Find {len(files)}. Save the output file in {args.output_path}.")
         for f in files:
             with open(f, 'rb') as fd:
@@ -32,10 +32,10 @@ def main(args):
         val_file_path = r"datafile_names/val_files.txt"
         with open(file_path) as f:
             contents = f.readlines()
+            print(contents[2])
             n_frames = len(contents) / 2
             print(n_frames)
-            val_indexes = np.dot(random.sample(range(0, int(n_frames - 1)), int(n_frames * 0.2)), 2)
-            print(len(val_indexes))
+            val_indexes = np.dot(random.sample(range(1, int(n_frames - 1)), int(n_frames * 0.2)), 2)
 
             with open(val_file_path, "w") as vf:
                 for index in val_indexes:
@@ -44,7 +44,8 @@ def main(args):
             with open(file_path, "w") as tf:
                 for index, line in enumerate(contents):
                     if index not in val_indexes:
-                        tf.write("{}".format(line))
+                        if index not in [0, 1, n_frames * 2 - 2, n_frames * 2 -1]:
+                            tf.write("{}".format(line))
 
     if args.shuffle:
         if os.path.isfile(file_path):
