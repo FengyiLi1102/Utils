@@ -43,10 +43,10 @@ if __name__ == "__main__":
     parser.add_argument("--shuffle",
                         action="store_true",
                         dest="shuffle",
-                        )
+                        default=True)
 
     args = parser.parse_args()
 
     main(args)
     if args.shuffle:
-        shuffle(args);
+        shuffle(args)
