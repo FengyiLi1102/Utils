@@ -4,20 +4,21 @@ import glob
 import os
 import funcs
 import random
-
-
-def shuffle(args):
-    print("Start shuffling...")
-    file_path = os.path.join(args.output_path, args.file_name)
-    lines = open(file_path).readlines()
-    random.shuffle(lines)
-    open(file_path, "w").writelines(lines)
+import numpy as np
 
 
 def main(args):
+    def shuffle(file):
+        print("Start shuffling...")
+        lines = open(file).readlines()
+        random.shuffle(lines)
+        with open(file, "w") as f:
+            f.writelines(lines)
+
     print("Start concatenating...")
     funcs.create_dir(args.output_path)
-    with open(os.path.join(args.output_path, args.file_name), 'wb') as wfd:
+    file_path = os.path.join(args.output_path, args.file_name)
+    with open(file_path, 'wb') as wfd:
         files = glob.glob(args.txt_path)
         print(f"Find {len(files)}. Save the output file in {args.output_path}.")
         for f in files:
@@ -25,9 +26,35 @@ def main(args):
                 print(f"Open {f}")
                 shutil.copyfileobj(fd, wfd)
 
+    if args.split_for_val:
+        print("Start splitting the dateset for training and validating ...")
+        # val_file_path = r"/vol/bitbucket/fl4718/monodepth2/splits/clouds/val_files.txt"
+        val_file_path = r"datafile_names/val_files.txt"
+        with open(file_path) as f:
+            contents = f.readlines()
+            n_frames = len(contents) / 2
+            print(n_frames)
+            val_indexes = np.dot(random.sample(range(0, int(n_frames - 1)), int(n_frames * 0.2)), 2)
+            print(len(val_indexes))
+
+            with open(val_file_path, "w") as vf:
+                for index in val_indexes:
+                    vf.write("{}{}".format(contents[index], contents[index+1]))
+
+            with open(file_path, "w") as tf:
+                for index, line in enumerate(contents):
+                    if index not in val_indexes:
+                        tf.write("{}".format(line))
+
+    if args.shuffle:
+        if os.path.isfile(file_path):
+            shuffle(file_path)
+        if args.split_for_val and os.path.isfile(val_file_path):
+            shuffle(val_file_path)
+
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser();
+    parser = argparse.ArgumentParser()
     parser.add_argument("--txt_path",
                         required=True,
                         type=str,
@@ -44,9 +71,15 @@ if __name__ == "__main__":
                         action="store_true",
                         dest="shuffle",
                         default=True)
+    parser.add_argument("--mono",
+                        action="store_true",
+                        dest="mono",
+                        default=True)
+    parser.add_argument("--split_for_val",
+                        action="store_true",
+                        dest="split_for_val",
+                        default=True)
 
     args = parser.parse_args()
 
     main(args)
-    if args.shuffle:
-        shuffle(args)
