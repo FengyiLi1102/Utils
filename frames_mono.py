@@ -25,11 +25,11 @@ if __name__ == "__main__":
     parser.add_argument("--H",
                         type=int,
                         help="Height of the frame",
-                        default=480)
+                        default=256)
     parser.add_argument("--W",
                         type=int,
                         help="Width of the frame",
-                        default=640)
+                        default=512)
     parser.add_argument("--filenames_output_dir",
                         type=str,
                         help="Path to store the dataset filenames in txt fime",

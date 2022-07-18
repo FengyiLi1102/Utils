@@ -164,11 +164,11 @@ if __name__ == "__main__":
     parser.add_argument("--H",
                         type=int,
                         help="Height of the frame",
-                        default=256)
+                        default=480)
     parser.add_argument("--W",
                         type=int,
                         help="Width of the frame",
-                        default=512)
+                        default=640)
     parser.add_argument("--frame_per_sec",
                         type=int,
                         help="Number of frames extracted per second",
@@ -184,12 +184,12 @@ if __name__ == "__main__":
                         dest="shuffle",
                         action="store_true",
                         help="Shuffle the frame indexes or not",
-                        default=False)
+                        default=True)
     parser.add_argument("--rectified",
                         dest="rectified",
                         action="store_true",
                         help="Rectify the frames generated from the video",
-                        default=False)
+                        default=True)
     parser.add_argument("--zip",
                         dest="zip",
                         action="store_true",
@@ -198,7 +198,8 @@ if __name__ == "__main__":
     parser.add_argument("--model",
                         type=str,
                         help="Name of the model used for training",
-                        default="Unsup")
+                        choices=["Unsup", "mono"],
+                        default="mono")
     # parser.add_argument("--calibration_path",
     #                     type=str,
     #                     help="Path to the directory containing the calibration information",
