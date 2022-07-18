@@ -136,8 +136,10 @@ def main(args):
         # Generate filename file for training and validation
         if args.model == "Unsup":
             funcs.filenames_generator(n, n_local, l_vid_name, r_vid_name, args)
-        elif args.model == "Mono":
+        elif args.model == "mono":
             funcs.filenames_generator_mono(n, n_local, l_vid_name, r_vid_name, args)
+        else:
+            raise ValueError
 
     # Zip all generated frames based on their output directories
     print("Zipping frame directories...")

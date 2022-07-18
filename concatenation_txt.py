@@ -56,16 +56,16 @@ def main(args):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--txt_path",
-                        required=True,
+                        default="datafile_names/640_480_2022-07-18/*.txt",
                         type=str,
                         help="Path to txt files to be concatenated")
     parser.add_argument("--output_path",
-                        required=True,
+                        default="datafile_names",
                         type=str,
                         help="Output path for the generated file")
     parser.add_argument("--file_name",
                         type=str,
-                        default="512_256_12k_mono.txt",
+                        default="train_files.txt",
                         help="Output file name")
     parser.add_argument("--shuffle",
                         action="store_true",
