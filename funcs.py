@@ -40,7 +40,7 @@ def filenames_generator_mono(n, n_local, l_vid_name, r_vid_name, args):
     filenames_txt = open(os.path.join(output_path, l_vid_name + ".txt"), "w")
 
     # Shuffle the indexes or not
-    indexes_list = onp.arange(n - n_local + 1, n)
+    indexes_list = onp.arange(n - n_local + 1, n + 1)
     if args.shuffle:
         onp.random.shuffle(indexes_list)
 
