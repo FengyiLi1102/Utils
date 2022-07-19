@@ -39,6 +39,11 @@ if __name__ == "__main__":
                         action="store_true",
                         help="Shuffle the frame indexes or not",
                         default=False)
+    parser.add_argument("--stereo",
+                        dest="stereo",
+                        action="store_true",
+                        help="If set, generate filename texts for stereo training",
+                        default=True)
 
     args = parser.parse_args()
 

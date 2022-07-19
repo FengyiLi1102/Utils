@@ -44,9 +44,9 @@ def filenames_generator_mono(n, n_local, l_vid_name, r_vid_name, args):
 
     def should_be_removed(index, n, n_local):
         if index == n - n_local + 1 or index == n:
-            return False
-        else:
             return True
+        else:
+            return False
 
     output_path = os.path.join(args.filenames_output_dir, f"{args.W}_{args.H}_{datetime.today().strftime('%Y-%m-%d')}")
     create_dir(output_path)
@@ -60,7 +60,7 @@ def filenames_generator_mono(n, n_local, l_vid_name, r_vid_name, args):
 
     # Write the image names into the txt file for further training
     for i in indexes_list:
-        if should_be_removed(i, n, n_local):
+        if args.stereo or not should_be_removed(i, n, n_local):
             txt_write(filenames_txt, i, l_vid_name, "left")
             txt_write(filenames_txt, i, r_vid_name, "right")
 

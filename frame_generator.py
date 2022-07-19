@@ -202,10 +202,11 @@ if __name__ == "__main__":
                         help="Name of the model used for training",
                         choices=["Unsup", "mono"],
                         default="mono")
-    # parser.add_argument("--calibration_path",
-    #                     type=str,
-    #                     help="Path to the directory containing the calibration information",
-    #                     default="calibration/")
+    parser.add_argument("--stereo",
+                        dest="stereo",
+                        action="store_true",
+                        help="If set, generate filename texts for stereo training",
+                        default=False)
 
     args = parser.parse_args()
 
