@@ -54,7 +54,7 @@ def main(args):
     n = 0
 
     for (cap_left_path, cap_right_path) in tqdm(list(zip(left_videos, right_videos))):
-        n_local = 0  # count number of frames finally generated in the video
+        n_local = 0  # count number of frames finally generated in the current video
         myCapL = cv2.VideoCapture(cap_left_path)
         myCapR = cv2.VideoCapture(cap_right_path)
 
