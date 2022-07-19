@@ -166,11 +166,11 @@ if __name__ == "__main__":
     parser.add_argument("--H",
                         type=int,
                         help="Height of the frame",
-                        default=480)
+                        default=256)
     parser.add_argument("--W",
                         type=int,
                         help="Width of the frame",
-                        default=640)
+                        default=512)
     parser.add_argument("--frame_per_sec",
                         type=int,
                         help="Number of frames extracted per second",
@@ -201,11 +201,11 @@ if __name__ == "__main__":
                         type=str,
                         help="Name of the model used for training",
                         choices=["Unsup", "mono"],
-                        default="mono")
+                        default="Unsup")
     parser.add_argument("--stereo",
                         dest="stereo",
                         action="store_true",
-                        help="If set, generate filename texts for stereo training",
+                        help="(Unsup model not related) If set, generate filename texts for stereo training",
                         default=False)
 
     args = parser.parse_args()
