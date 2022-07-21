@@ -20,6 +20,7 @@ def main(args):
         folder_path = os.path.join(direction_folder, "*/")
         print(f"-> Open folder {direction_folder} ...")
         masked_direction_dir = os.path.join(masked_dir, direction_folder.split("/")[-2])
+        create_dir(masked_direction_dir)
 
         for video_folder in glob.glob(folder_path):
             masked_video_dir = os.path.join(masked_direction_dir, video_folder.split("/")[-2])
