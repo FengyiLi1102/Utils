@@ -85,7 +85,7 @@ def filename_generator_rendered(n, n_local, output_path, file_name):
 def txt_write_rendered(filenames_txt, i_img, position):
     filenames_txt.write(position)
     filenames_txt.write(" ")
-    filenames_txt.write(str(i_img))
+    filenames_txt.write(str("{:04d}".format(i_img)))
     filenames_txt.write(" ")
     filenames_txt.write(f"{position[0]}".lower())
     filenames_txt.write("\n")
