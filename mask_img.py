@@ -59,12 +59,19 @@ def creat_dir_mono(args, dir_name):
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--root_dir",
-                        type=str,
-                        default="frames_output/640_480_2022-07-18")
-    parser.add_argument("--output_name",
-                        type=str,
-                        default=r"640_480_train")
-    opts = parser.parse_args()
-    main(opts)
+    # parser = argparse.ArgumentParser()
+    # parser.add_argument("--root_dir",
+    #                     type=str,
+    #                     default="frames_output/640_480_2022-07-18")
+    # parser.add_argument("--output_name",
+    #                     type=str,
+    #                     default=r"640_480_train")
+    # opts = parser.parse_args()
+    # main(opts)
+
+    for frame_path in glob.glob(r"clouds/*.png"):
+        print(frame_path)
+        img = cv2.imread(frame_path)
+        mask = cv2.imread(r"mask_1.png")
+        masked_img = cv2.bitwise_and(mask, img)
+        cv2.imwrite(os.path.join("masked_test_img", frame_path.split("/")[-1]), masked_img)
