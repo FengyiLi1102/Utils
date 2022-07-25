@@ -38,7 +38,7 @@ if __name__ == "__main__":
                         dest="shuffle",
                         action="store_true",
                         help="Shuffle the frame indexes or not",
-                        default=False)
+                        default=True)
     parser.add_argument("--stereo",
                         dest="stereo",
                         action="store_true",

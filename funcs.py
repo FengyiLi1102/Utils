@@ -69,9 +69,10 @@ def filenames_generator_mono(n, n_local, l_vid_name, r_vid_name, args):
     filenames_txt.close()
 
 
-def filename_generator_rendered(n, n_local, output_path, file_name):
+def filename_generator_rendered(n, n_local, output_path, file_name, shuffle=False):
     index_list = onp.arange(n - n_local + 1, n + 1)
-    onp.random.shuffle(index_list)
+    if shuffle:
+        onp.random.shuffle(index_list)
 
     filenames_txt = open(os.path.join(output_path, file_name + ".txt"), "w")
 
