@@ -34,9 +34,7 @@ def main(args):
         val_file_path = r"datafile_names/val_files.txt"
         with open(file_path) as f:
             contents = f.readlines()
-            print(contents[2])
             n_frames = len(contents) / 2
-            print(n_frames)
             val_indexes = np.dot(random.sample(range(0, int(n_frames - 1)), int(n_frames * 0.2)), 2)
 
             with open(val_file_path, "w") as vf:
@@ -59,7 +57,7 @@ def main(args):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--txt_path",
-                        default="datafile_names/640_480_2022-07-19/*.txt",
+                        default="rendered_train_data.txt",
                         type=str,
                         help="Path to txt files to be concatenated")
     parser.add_argument("--output_path",
