@@ -44,7 +44,9 @@ def main(args):
             with open(file_path, "w") as tf:
                 for index, line in enumerate(contents):
                     if index not in val_indexes:
-                        if index not in [0, 1, n_frames * 2 - 2, n_frames * 2 - 1]:
+                        if not args.stereo and index not in [0, 1, n_frames * 2 - 2, n_frames * 2 - 1]:
+                            tf.write("{}".format(line))
+                        else:
                             tf.write("{}".format(line))
 
     if args.shuffle:
@@ -79,6 +81,10 @@ if __name__ == "__main__":
     parser.add_argument("--split_for_val",
                         action="store_true",
                         dest="split_for_val",
+                        default=True)
+    parser.add_argument("--stereo",
+                        action="store_true",
+                        dest="stereo",
                         default=True)
 
     args = parser.parse_args()
