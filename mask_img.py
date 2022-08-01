@@ -77,7 +77,7 @@ if __name__ == "__main__":
         view_path = os.path.join(r"../monodepth2/rendered_train", view)
         output_path = os.path.join(r"rendered_masked_data", view)
         create_dir(output_path)
-        n = 0
+        n = 1
 
         for img in glob.glob(os.path.join(view_path, "*.PNG")):
             img = cv2.imread(img)
