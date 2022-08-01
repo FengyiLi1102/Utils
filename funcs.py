@@ -1,5 +1,6 @@
 import glob
 import os
+import re
 from datetime import datetime
 
 import cv2
@@ -135,6 +136,10 @@ def tif_to_png(img_dir, output_dir):
 
             if i % 100 == 0:
                 print(f"-> Convert {i} images ...")
+
+
+def num_sort(input):
+    return list(map(int, re.findall(r"\d+", input)))
 
 
 if __name__ == "__main__":
