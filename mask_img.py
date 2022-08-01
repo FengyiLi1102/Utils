@@ -74,7 +74,7 @@ if __name__ == "__main__":
     create_dir(r"rendered_masked_data")
 
     for view in ["Left", "Right"]:
-        view_path = os.path.join(r"rendered_train", view)
+        view_path = os.path.join(r"../monodepth2/rendered_train", view)
         output_path = os.path.join(r"rendered_masked_data", view)
         create_dir(output_path)
         n = 0
