@@ -89,8 +89,8 @@ def main(args):
             frame_R = cv2.resize(frame_R, frame_size)
 
             # Remove the timestamp on frames
-            frame_L = funcs.remove_timestamp(frame_L, "L", args)
-            frame_R = funcs.remove_timestamp(frame_R, "R", args)
+            # frame_L = funcs.remove_timestamp(frame_L, "L", args)
+            # frame_R = funcs.remove_timestamp(frame_R, "R", args)
 
             # Mask the buildings and timestamp on frames
 

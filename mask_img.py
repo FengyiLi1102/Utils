@@ -1,3 +1,4 @@
+import argparse
 import glob
 import os
 
@@ -8,7 +9,7 @@ from funcs import create_dir
 
 def main(args):
     mask_l = cv2.imread(r"mask_1.png")
-    mask_r = cv2.imread(r"mask_2.png")
+    # mask_r = cv2.imread(r"mask_2.png")
     mask_r_test = cv2.imread(r"mask_r_test.png")
     n = 0
 
@@ -31,7 +32,7 @@ def main(args):
             for frame_path in sorted(glob.glob(image_paths)):
                 img = cv2.imread(frame_path)
                 print(direction_folder.split("/")[-2])
-                mask = mask_l if direction_folder.split("/")[-2] == "left" else mask_r
+                mask = mask_l if direction_folder.split("/")[-2] == "left" else mask_r_test
                 masked_img = cv2.bitwise_and(mask, img)
                 path_list = frame_path.split("/")
                 path_list[1] = args.output_name
@@ -57,22 +58,12 @@ def creat_dir_mono(args, dir_name):
     return new_root_path
 
 
-if __name__ == "__main__":
-    # parser = argparse.ArgumentParser()
-    # parser.add_argument("--root_dir",
-    #                     type=str,
-    #                     default=r"masked_test_data/640_480_2022-07-19")
-    # parser.add_argument("--output_name",
-    #                     type=str,
-    #                     default=r"masked_test")
-    # opts = parser.parse_args()
-    # main(opts)
+def mask_rendered():
+    global view, output_path, n, mask
     mask_l = cv2.imread(r"mask_1.png")
     mask_r = cv2.imread(r"mask_2.png")
     mask_r_test = cv2.imread(r"mask_r_test.png")
-
     create_dir(r"rendered_masked_data")
-
     for view in ["Left", "Right"]:
         view_path = os.path.join(r"../monodepth2/rendered_train", view)
         output_path = os.path.join(r"rendered_masked_data", view)
@@ -89,6 +80,20 @@ if __name__ == "__main__":
 
             if n % 100 == 0:
                 print("==========")
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--root_dir",
+                        type=str,
+                        default=r"frames_output/")
+    parser.add_argument("--output_name",
+                        type=str,
+                        default=r"nonR_train_data_masked")
+    opts = parser.parse_args()
+    main(opts)
+
+    # mask_rendered()
 
     # for frame_path in glob.glob(r"clouds/*.png"):
     #     print(frame_path)
