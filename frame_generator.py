@@ -33,7 +33,7 @@ def main(args):
     funcs.create_dir(l_output_path)
     funcs.create_dir(r_output_path)
 
-    n = 0
+    n = args.n
 
     for (cap_left_path, cap_right_path) in tqdm(list(zip(left_videos, right_videos))):
         n_local = 0  # count number of frames finally generated in the current video
@@ -191,6 +191,10 @@ if __name__ == "__main__":
                         action="store_true",
                         help="(Unsup model not related) If set, generate filename texts for stereo training",
                         default=True)
+    parser.add_argument("--n",
+                        type=int,
+                        default=11869,
+                        help="First index to the first generated frame.")
 
     args = parser.parse_args()
 
