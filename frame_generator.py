@@ -11,27 +11,9 @@ import calibration
 import funcs
 
 
-# def load_calibration_info(calib_path):
-#     print("Loading calibration information...")
-#     text_file_paths = os.path.join(calib_path, r"*.txt")
-
-#     if len(glob.glob(text_file_paths)) == 0:
-#         calibration.calibration()
-
-#     calib_dict = {}
-#     for text_file_path in glob.glob(text_file_paths):
-#         calibration_param = re.split(r"[/\_\.]+", text_file_path)[-2]
-#         print(f"Load {calibration_param} from {text_file_path.split('/')[-1]}")
-#         calib_dict[calibration_param] = onp.array(onp.loadtxt(text_file_path, delimiter=" ", unpack=False))
-
-#     print("Calibration loading finished\n")
-#     return calib_dict
-
-
 # Generate the rectified frames
 def main(args):
     # Load calibration information
-    # calib_data = load_calibration_info(args.calibration_path)
     mapL1, mapL2, mapR1, mapR2 = calibration.main()
 
     frame_size = (args.W, args.H)
@@ -110,6 +92,8 @@ def main(args):
             frame_L = funcs.remove_timestamp(frame_L, "L", args)
             frame_R = funcs.remove_timestamp(frame_R, "R", args)
 
+            # Mask the buildings and timestamp on frames
+
             # Save images
             left_img_name = f"img_{n}_left.png"
             right_img_name = f"img_{n}_right.png"
@@ -166,11 +150,11 @@ if __name__ == "__main__":
     parser.add_argument("--H",
                         type=int,
                         help="Height of the frame",
-                        default=256)
+                        default=480)
     parser.add_argument("--W",
                         type=int,
                         help="Width of the frame",
-                        default=512)
+                        default=640)
     parser.add_argument("--frame_per_sec",
                         type=int,
                         help="Number of frames extracted per second",
@@ -196,18 +180,24 @@ if __name__ == "__main__":
                         dest="zip",
                         action="store_true",
                         help="Zip frames",
-                        default=False)
+                        default=True)
     parser.add_argument("--model",
                         type=str,
                         help="Name of the model used for training",
                         choices=["Unsup", "mono"],
-                        default="Unsup")
+                        default="mono")
     parser.add_argument("--stereo",
                         dest="stereo",
                         action="store_true",
                         help="(Unsup model not related) If set, generate filename texts for stereo training",
-                        default=False)
+                        default=True)
 
     args = parser.parse_args()
 
     main(args)
+
+    # print("Zipping frame directories...")
+    # make_archive(os.path.join("Utils/rendered_train_1k"),
+    #              "zip",
+    #              root_dir="Utils/",
+    #              base_dir="rendered_train")
