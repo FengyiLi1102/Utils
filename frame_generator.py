@@ -33,6 +33,11 @@ def main(args):
     funcs.create_dir(l_output_path)
     funcs.create_dir(r_output_path)
 
+    # Load building and timestamp masks
+    mask_l = cv2.imread(r"mask_1.png")
+    # mask_r = cv2.imread(r"mask_2.png")
+    mask_r_test = cv2.imread(r"mask_r_test.png")
+
     n = args.n
 
     for (cap_left_path, cap_right_path) in tqdm(list(zip(left_videos, right_videos))):
@@ -88,11 +93,9 @@ def main(args):
             frame_L = cv2.resize(frame_L, frame_size)
             frame_R = cv2.resize(frame_R, frame_size)
 
-            # Remove the timestamp on frames
-            # frame_L = funcs.remove_timestamp(frame_L, "L", args)
-            # frame_R = funcs.remove_timestamp(frame_R, "R", args)
-
             # Mask the buildings and timestamp on frames
+            frame_L = cv2.bitwise_and(mask_l, frame_L)
+            frame_R = cv2.bitwise_and(mask_r_test, frame_R)
 
             # Save images
             left_img_name = f"img_{n}_left.png"
@@ -101,12 +104,6 @@ def main(args):
             right_img_output_path = os.path.join(right_output_path, right_img_name)
             cv2.imwrite(left_img_output_path, frame_L)
             cv2.imwrite(right_img_output_path, frame_R)
-
-            # # Remove the timestamp on frames
-            # l_img = Image.open(left_img_output_path).convert("RGBA")
-            # r_img = Image.open(right_img_output_path).convert("RGBA")
-            # funcs.remove_timestamp(l_img, "L", left_img_output_path)
-            # funcs.remove_timestamp(r_img, "R", right_img_output_path)
 
             if n % 50 == 0:
                 print(f"Finish {n} frame...")

@@ -22,6 +22,8 @@ def main(args):
         masked_direction_dir = os.path.join(masked_dir, direction_folder.split("/")[-2])
         create_dir(masked_direction_dir)
 
+        mask = mask_l if direction_folder.split("/")[-2] == "left" else mask_r_test
+
         for video_folder in glob.glob(folder_path):
             masked_video_dir = os.path.join(masked_direction_dir, video_folder.split("/")[-2])
             create_dir(masked_video_dir)
@@ -32,7 +34,6 @@ def main(args):
             for frame_path in sorted(glob.glob(image_paths)):
                 img = cv2.imread(frame_path)
                 print(direction_folder.split("/")[-2])
-                mask = mask_l if direction_folder.split("/")[-2] == "left" else mask_r_test
                 masked_img = cv2.bitwise_and(mask, img)
                 path_list = frame_path.split("/")
                 path_list[1] = args.output_name
