@@ -36,7 +36,7 @@ def main(args):
 
     print("Start concatenating...")
     funcs.create_dir(args.output_path)
-    file_path = os.path.join(args.output_path, "all_filenames.txt")
+    file_path = os.path.join(args.output_path, "concatenated_filenames.txt")
     train_file_path = os.path.join(args.output_path, "train_files.txt") if args.functional else ""
     with open(file_path, 'wb') as wfd:
         files = sorted(glob.glob(args.txt_path))
@@ -52,12 +52,12 @@ def main(args):
     if args.split_for_val:
         print("Start splitting the dateset for training and validating ...")
         # val_file_path = r"/vol/bitbucket/fl4718/monodepth2/splits/clouds/val_files.txt"
-        val_file_path = r"datafile_names/val_files.txt"
+        val_file_path = os.path.join(args.output_path, r"val_files.txt")
         split(file_path, val_file_path, train_file_path, 0.2)
 
     if args.split_for_test:
         print("Start splitting the dataset for testing ...")
-        test_file_path = r"datafile_names/test_files.txt"
+        test_file_path = os.path.join(args.output_path, r"test_files.txt")
         split(train_file_path, test_file_path, train_file_path, 0.125)
 
     if args.shuffle:
@@ -76,7 +76,7 @@ if __name__ == "__main__":
                         type=str,
                         help="Path to txt files to be concatenated")
     parser.add_argument("--output_path",
-                        default="datafile_names",
+                        default="datafile_names/test/",
                         type=str,
                         help="Output path for the generated file")
     parser.add_argument("--file_name",
