@@ -17,10 +17,27 @@ def main(args):
         with open(file, "w") as f:
             f.writelines(lines)
 
+    def write_lines(contents, index, f):
+        f.write("{}{}".format(contents[index * 2], contents[index * 2 + 1]))
+
+    def split(left_file, file_with_index, file_without_index, percentage):
+        with open(left_file) as f:
+            contents = f.readlines()
+            n_frames = len(contents) / 2
+            indexes = random.sample(range(0, int(n_frames - 1)), int(n_frames * percentage))
+
+            with open(file_with_index, "w") as wif:
+                with open(file_without_index, "w") as woif:
+                    for index in np.arange(int(n_frames)):
+                        if index in indexes:
+                            write_lines(contents, index, wif)
+                        else:
+                            write_lines(contents, index, woif)
+
     print("Start concatenating...")
     funcs.create_dir(args.output_path)
-    file_path = os.path.join(args.output_path, "concatenated_temp_file.txt")
-    train_file_path = os.path.join(args.output_path, "train_files.txt")
+    file_path = os.path.join(args.output_path, "all_filenames.txt")
+    train_file_path = os.path.join(args.output_path, "train_files.txt") if args.functional else ""
     with open(file_path, 'wb') as wfd:
         files = sorted(glob.glob(args.txt_path))
         print(f"Find {len(files)}. Save the output file in {args.output_path}.")
@@ -29,39 +46,33 @@ def main(args):
                 print(f"Open {f}")
                 shutil.copyfileobj(fd, wfd)
 
+    val_file_path = ""
+    test_file_path = ""
+
     if args.split_for_val:
         print("Start splitting the dateset for training and validating ...")
         # val_file_path = r"/vol/bitbucket/fl4718/monodepth2/splits/clouds/val_files.txt"
         val_file_path = r"datafile_names/val_files.txt"
-        with open(file_path) as f:
-            contents = f.readlines()
-            n_frames = len(contents) / 2
-            val_indexes = random.sample(range(0, int(n_frames - 1)), int(n_frames * 0.2))
-            print(val_indexes)
+        split(file_path, val_file_path, train_file_path, 0.2)
 
-            with open(val_file_path, "w") as vf:
-                with open(train_file_path, "w") as tf:
-                    for index in np.arange(int(n_frames)):
-                        if index in val_indexes:
-                            write_lines(contents, index, vf)
-                        else:
-                            write_lines(contents, index, tf)
+    if args.split_for_test:
+        print("Start splitting the dataset for testing ...")
+        test_file_path = r"datafile_names/test_files.txt"
+        split(train_file_path, test_file_path, train_file_path, 0.125)
 
     if args.shuffle:
         if os.path.isfile(train_file_path):
             shuffle(train_file_path)
         if args.split_for_val and os.path.isfile(val_file_path):
             shuffle(val_file_path)
-
-
-def write_lines(contents, index, f):
-    f.write("{}{}".format(contents[index * 2], contents[index * 2 + 1]))
+        if args.split_for_test and os.path.isfile(test_file_path):
+            shuffle(test_file_path)
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--txt_path",
-                        default="rendered_train_data.txt",
+                        default="datafile_names/concatenated_temp_file.txt",
                         type=str,
                         help="Path to txt files to be concatenated")
     parser.add_argument("--output_path",
@@ -84,9 +95,17 @@ if __name__ == "__main__":
                         action="store_true",
                         dest="split_for_val",
                         default=True)
+    parser.add_argument("--split_for_test",
+                        action="store_true",
+                        dest="split_for_test",
+                        default=True)
     parser.add_argument("--stereo",
                         action="store_true",
                         dest="stereo",
+                        default=True)
+    parser.add_argument("--functional",
+                        action="store_true",
+                        dest="functional",
                         default=True)
 
     args = parser.parse_args()
