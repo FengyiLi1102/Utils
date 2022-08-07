@@ -38,13 +38,7 @@ def main(args):
     funcs.create_dir(args.output_path)
     file_path = os.path.join(args.output_path, "concatenated_filenames.txt")
     train_file_path = os.path.join(args.output_path, "train_files.txt") if args.functional else ""
-    with open(file_path, 'wb') as wfd:
-        files = sorted(glob.glob(args.txt_path))
-        print(f"Find {len(files)}. Save the output file in {args.output_path}.")
-        for f in files:
-            with open(f, 'rb') as fd:
-                print(f"Open {f}")
-                shutil.copyfileobj(fd, wfd)
+    concatenate_txt(args, ["splits/clouds/more_train.txt", "splits/clouds/more_val.txt"])
 
     val_file_path = ""
     test_file_path = ""
@@ -70,14 +64,24 @@ def main(args):
             shuffle(test_file_path)
 
 
+def concatenate_txt(args, file_path):
+    with open(file_path, 'wb') as wfd:
+        files = sorted(glob.glob(args.txt_path)) if type(file_path) == str else file_path
+        print(f"Find {len(files)}. Save the output file in {args.output_path}.")
+        for f in files:
+            with open(f, 'rb') as fd:
+                print(f"Open {f}")
+                shutil.copyfileobj(fd, wfd)
+
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--txt_path",
-                        default="datafile_names/640_480_2022-08-05/*.txt",
+                        default="/vol/bitbucket/fl4718/monodepth2/splits/clouds/more",
                         type=str,
                         help="Path to txt files to be concatenated")
     parser.add_argument("--output_path",
-                        default="datafile_names/raw_train_7k/",
+                        default="splits/clouds/",
                         type=str,
                         help="Output path for the generated file")
     parser.add_argument("--file_name",
@@ -107,7 +111,7 @@ if __name__ == "__main__":
     parser.add_argument("--functional",
                         action="store_true",
                         dest="functional",
-                        default=True)
+                        default=False)
 
     args = parser.parse_args()
 
