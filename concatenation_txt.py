@@ -66,7 +66,8 @@ def main(args):
 
 def concatenate_txt(args, file_path, txt_list=None):
     with open(file_path, 'wb') as wfd:
-        files = sorted(glob.glob(args.txt_path)) if type(args.txt_path) == str else txt_list
+        # files = sorted(glob.glob(args.txt_path))
+        files = txt_list
         print(f"Find {len(files)}. Save the output file in {args.output_path}.")
         for f in files:
             with open(f, 'rb') as fd:
