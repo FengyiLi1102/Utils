@@ -39,7 +39,7 @@ def main(args):
     file_path = os.path.join(args.output_path, "concatenated_filenames.txt")
     train_file_path = os.path.join(args.output_path, "train_files.txt") if args.functional else ""
     concatenate_txt(args, file_path, txt_list=["/vol/bitbucket/fl4718/monodepth2/splits/clouds/more_train.txt",
-                                               "/vol/bitbucket/fl4718/monodepth2/splits/clouds/more_val.txt"])
+                                               "/vol/bitbucket/fl4718/monodepth2/splits/clouds/train_files.txt"])
 
     val_file_path = ""
     test_file_path = ""
