@@ -38,7 +38,7 @@ def main(args):
     funcs.create_dir(args.output_path)
     file_path = os.path.join(args.output_path, "concatenated_filenames.txt")
     train_file_path = os.path.join(args.output_path, "train_files.txt") if args.functional else ""
-    concatenate_txt(args, ["splits/clouds/more_train.txt", "splits/clouds/more_val.txt"])
+    concatenate_txt(args, file_path, txt_list=["splits/clouds/more_train.txt", "splits/clouds/more_val.txt"])
 
     val_file_path = ""
     test_file_path = ""
@@ -64,9 +64,9 @@ def main(args):
             shuffle(test_file_path)
 
 
-def concatenate_txt(args, file_path):
+def concatenate_txt(args, file_path, txt_list=None):
     with open(file_path, 'wb') as wfd:
-        files = sorted(glob.glob(args.txt_path)) if type(file_path) == str else file_path
+        files = sorted(glob.glob(args.txt_path)) if type(args.txt_path) == str else txt_list
         print(f"Find {len(files)}. Save the output file in {args.output_path}.")
         for f in files:
             with open(f, 'rb') as fd:
