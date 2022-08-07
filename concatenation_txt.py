@@ -49,16 +49,17 @@ def main(args):
     val_file_path = ""
     test_file_path = ""
 
-    if args.split_for_val:
-        print("Start splitting the dateset for training and validating ...")
-        # val_file_path = r"/vol/bitbucket/fl4718/monodepth2/splits/clouds/val_files.txt"
-        val_file_path = os.path.join(args.output_path, r"val_files.txt")
-        split(file_path, val_file_path, train_file_path, 0.2)
+    if args.functional:
+        if args.split_for_val:
+            print("Start splitting the dateset for training and validating ...")
+            # val_file_path = r"/vol/bitbucket/fl4718/monodepth2/splits/clouds/val_files.txt"
+            val_file_path = os.path.join(args.output_path, r"val_files.txt")
+            split(file_path, val_file_path, train_file_path, 0.2)
 
-    if args.split_for_test:
-        print("Start splitting the dataset for testing ...")
-        test_file_path = os.path.join(args.output_path, r"test_files.txt")
-        split(train_file_path, test_file_path, train_file_path, 0.125)
+        if args.split_for_test:
+            print("Start splitting the dataset for testing ...")
+            test_file_path = os.path.join(args.output_path, r"test_files.txt")
+            split(train_file_path, test_file_path, train_file_path, 0.125)
 
     if args.shuffle:
         if os.path.isfile(train_file_path):
@@ -72,11 +73,11 @@ def main(args):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--txt_path",
-                        default="datafile_names/concatenated_temp_file.txt",
+                        default="datafile_names/640_480_2022-08-05/*.txt",
                         type=str,
                         help="Path to txt files to be concatenated")
     parser.add_argument("--output_path",
-                        default="datafile_names/test/",
+                        default="datafile_names/raw_train_7k/",
                         type=str,
                         help="Output path for the generated file")
     parser.add_argument("--file_name",
@@ -106,7 +107,7 @@ if __name__ == "__main__":
     parser.add_argument("--functional",
                         action="store_true",
                         dest="functional",
-                        default=True)
+                        default=False)
 
     args = parser.parse_args()
 
