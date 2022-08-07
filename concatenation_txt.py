@@ -99,7 +99,7 @@ if __name__ == "__main__":
     parser.add_argument("--split_for_test",
                         action="store_true",
                         dest="split_for_test",
-                        default=True)
+                        default=False)
     parser.add_argument("--stereo",
                         action="store_true",
                         dest="stereo",
@@ -107,7 +107,7 @@ if __name__ == "__main__":
     parser.add_argument("--functional",
                         action="store_true",
                         dest="functional",
-                        default=False)
+                        default=True)
 
     args = parser.parse_args()
 
