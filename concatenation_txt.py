@@ -81,7 +81,7 @@ if __name__ == "__main__":
                         type=str,
                         help="Path to txt files to be concatenated")
     parser.add_argument("--output_path",
-                        default="splits/clouds/",
+                        default="/vol/bitbucket/fl4718/monodepth2/splits/clouds/",
                         type=str,
                         help="Output path for the generated file")
     parser.add_argument("--file_name",
