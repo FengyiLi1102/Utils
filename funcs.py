@@ -7,6 +7,9 @@ import cv2
 import numpy as onp
 from PIL import Image
 
+os.environ["OPENCV_IO_ENABLE_OPENEXR"] = "1"
+from scipy.spatial.transform import Rotation as R
+
 
 def create_dir(path):
     if not os.path.exists(path):
@@ -140,6 +143,25 @@ def tif_to_png(img_dir, output_dir):
 
 def num_sort(input):
     return list(map(int, re.findall(r"\d+", input)))
+
+
+def depth_to_disp(depth, b, f):
+    return f * b / depth
+
+
+def calculate_Tcw_Twc(view):
+    if view == "l":
+        tx, ty, tz, rx, ry, rz = -29.7387, 49.8636, -26.2908, 24.3174, -7.889, -0.872553  # left
+    else:
+        tx, ty, tz, rx, ry, rz = 22.2744, 30, -1.3696, 25.7777, -8.35386, -0.149347  # right
+
+    r = R.from_euler('xyz', [rx, ry, rz], degrees=True)
+    Twc = onp.eye(4)  # camera-to-world
+    Twc[:3, :3] = r.as_matrix()
+    Twc[:3, 3] = onp.array([tx, -ty, tz])
+    Tcw = onp.linalg.inv(Twc)
+
+    return Tcw, Twc
 
 
 if __name__ == "__main__":
