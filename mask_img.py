@@ -9,7 +9,7 @@ from funcs import create_dir
 
 def main(args):
     mask_l = cv2.imread(r"mask_1.png")
-    # mask_r = cv2.imread(r"mask_2.png")
+    # mask_r = cv2.imread(r"mask_2.png")  # only for testing data: tl_2021-09-29_12A
     mask_r_test = cv2.imread(r"mask_r_test.png")
     n = 0
 
@@ -62,18 +62,19 @@ def creat_dir_mono(args, dir_name):
 def mask_rendered():
     global view, output_path, n, mask
     mask_l = cv2.imread(r"mask_1.png")
-    mask_r = cv2.imread(r"mask_2.png")
+    # mask_r = cv2.imread(r"mask_2.png")
     mask_r_test = cv2.imread(r"mask_r_test.png")
     create_dir(r"rendered_masked_data")
+
     for view in ["Left", "Right"]:
-        view_path = os.path.join(r"../monodepth2/rendered_train", view)
-        output_path = os.path.join(r"rendered_masked_data", view)
+        view_path = os.path.join(r"rectified_rendered_data", view)
+        output_path = os.path.join(r"masked_rectified_rendered", view)
         create_dir(output_path)
         n = 1
 
         for img in glob.glob(os.path.join(view_path, "*.PNG")):
             img = cv2.imread(img)
-            mask = mask_l if view == "Left" else mask_r
+            mask = mask_l if view == "Left" else mask_r_test
             masked_img = cv2.bitwise_and(mask, img)
             masked_path = os.path.join(output_path, "rgb_{:04d}.PNG".format(n))
             cv2.imwrite(masked_path, masked_img)
@@ -84,17 +85,17 @@ def mask_rendered():
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--root_dir",
-                        type=str,
-                        default=r"rectified_rendered_data/")
-    parser.add_argument("--output_name",
-                        type=str,
-                        default=r"masked_rendered")
-    opts = parser.parse_args()
-    main(opts)
+    # parser = argparse.ArgumentParser()
+    # parser.add_argument("--root_dir",
+    #                     type=str,
+    #                     default=r"rectified_rendered_data/")
+    # parser.add_argument("--output_name",
+    #                     type=str,
+    #                     default=r"masked_rendered")
+    # opts = parser.parse_args()
+    # main(opts)
 
-    # mask_rendered()
+    mask_rendered()
 
     # for frame_path in glob.glob(r"clouds/*.png"):
     #     print(frame_path)
