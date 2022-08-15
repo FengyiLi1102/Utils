@@ -80,17 +80,17 @@ def mask_rendered():
             n += 1
 
             if n % 100 == 0:
-                print("==========")
+                print(f"-> Mask {n} images ...")
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--root_dir",
                         type=str,
-                        default=r"frames_output/")
+                        default=r"rectified_rendered_data/")
     parser.add_argument("--output_name",
                         type=str,
-                        default=r"nonR_train_data_masked")
+                        default=r"masked_rendered")
     opts = parser.parse_args()
     main(opts)
 
