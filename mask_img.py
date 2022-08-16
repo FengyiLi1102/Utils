@@ -64,7 +64,7 @@ def mask_rendered():
     mask_l = cv2.imread(r"mask_1.png")
     # mask_r = cv2.imread(r"mask_2.png")
     mask_r_test = cv2.imread(r"mask_r_test.png")
-    create_dir(r"rectified_rendered_data_uncalibrated")
+    create_dir(r"masked_rectified_rendered_uncalibrated")
 
     for view in ["Left", "Right"]:
         view_path = os.path.join(r"rectified_rendered_data_uncalibrated", view)
