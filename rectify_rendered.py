@@ -41,7 +41,7 @@ def rectify_rendered_frame(img, map1, map2, save_path):
 
 
 def calculate_params(Tw_cl, Tw_cr):
-    Tcl_cr = np.linalg.inv(Tw_cl) @ Tw_cr
+    Tcr_cl = np.linalg.inv(Tw_cr) @ Tw_cl
 
     K = np.array([[f, 0., cx],
                   [0., f, cy],
@@ -49,18 +49,14 @@ def calculate_params(Tw_cl, Tw_cr):
 
     dist_coeffs_l = np.zeros(5).astype(np.float64)
     dist_coeffs_r = np.zeros(5).astype(np.float64)
-    rotation = Tcl_cr[:3, :3].astype(np.float64)
-    translation = Tcl_cr[:3, -1].astype(np.float64)
+    rotation = Tcr_cl[:3, :3].astype(np.float64)
+    translation = Tcr_cl[:3, -1].astype(np.float64)
 
     RL, RR, PL, PR, Q, _, _ = cv2.stereoRectify(K, dist_coeffs_l, K, dist_coeffs_r, (640, 480), rotation,
                                                 translation, alpha=-1)
 
-    mapL1, mapL2 = cv2.initUndistortRectifyMap(
-        K, dist_coeffs_l, RL, PL, (640, 480),
-        cv2.CV_32FC1)
-    mapR1, mapR2 = cv2.initUndistortRectifyMap(
-        K, dist_coeffs_r, RR, PR, (640, 480),
-        cv2.CV_32FC1)
+    mapL1, mapL2 = cv2.initUndistortRectifyMap(K, dist_coeffs_l, RL, PL, (640, 480), cv2.CV_32FC1)
+    mapR1, mapR2 = cv2.initUndistortRectifyMap(K, dist_coeffs_r, RR, PR, (640, 480), cv2.CV_32FC1)
 
     return mapL1, mapL2, mapR1, mapR2
 
