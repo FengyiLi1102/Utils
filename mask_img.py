@@ -67,8 +67,8 @@ def mask_rendered():
     create_dir(r"masked_rectified_rendered")
 
     for view in ["Left", "Right"]:
-        view_path = os.path.join(r"rectified_rendered_data", view)
-        output_path = os.path.join(r"masked_rectified_rendered", view)
+        view_path = os.path.join(r"rectified_rendered_data_uncalibrated", view)
+        output_path = os.path.join(r"masked_rectified_rendered_uncalibrated", view)
         create_dir(output_path)
         n = 1
 
