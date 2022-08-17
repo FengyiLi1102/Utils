@@ -65,10 +65,10 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--imgs_path",
                         type=str,
-                        default=r"rendered_train/")
+                        default=r"masked_rendered/")
     parser.add_argument("--output_path",
                         type=str,
-                        default=r"rectified_rendered_data/")
+                        default=r"masked_rendered_rectified/")
 
     args = parser.parse_args()
 
