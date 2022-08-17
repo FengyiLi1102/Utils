@@ -61,14 +61,14 @@ def creat_dir_mono(args, dir_name):
 
 def mask_rendered():
     global view, output_path, n, mask
-    mask_l = cv2.imread(r"mask_1.png")
+    mask_l = cv2.imread(r"[p]img_7_left.png")
     # mask_r = cv2.imread(r"mask_2.png")
-    mask_r_test = cv2.imread(r"mask_r_test.png")
-    create_dir(r"masked_rectified_rendered")
+    mask_r_test = cv2.imread(r"[p]img_7_right.png")
+    create_dir(r"masked_rendered")
 
     for view in ["Left", "Right"]:
-        view_path = os.path.join(r"rectified_rendered_data", view)
-        output_path = os.path.join(r"masked_rectified_rendered", view)
+        view_path = os.path.join(r"rendered_train", view)
+        output_path = os.path.join(r"masked_rendered", view)
         create_dir(output_path)
         n = 1
 
