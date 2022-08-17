@@ -94,8 +94,9 @@ def main(args):
             frame_R = cv2.resize(frame_R, frame_size)
 
             # Mask the buildings and timestamp on frames
-            frame_L = cv2.bitwise_and(mask_l, frame_L)
-            frame_R = cv2.bitwise_and(mask_r_test, frame_R)
+            if args.mask:
+                frame_L = cv2.bitwise_and(mask_l, frame_L)
+                frame_R = cv2.bitwise_and(mask_r_test, frame_R)
 
             # Save images
             left_img_name = f"img_{n}_left.png"
@@ -167,17 +168,17 @@ if __name__ == "__main__":
                         dest="shuffle",
                         action="store_true",
                         help="Shuffle the frame indexes or not",
-                        default=True)
+                        default=False)
     parser.add_argument("--rectified",
                         dest="rectified",
                         action="store_true",
                         help="Rectify the frames generated from the video",
-                        default=True)
+                        default=False)
     parser.add_argument("--zip",
                         dest="zip",
                         action="store_true",
                         help="Zip frames",
-                        default=True)
+                        default=False)
     parser.add_argument("--model",
                         type=str,
                         help="Name of the model used for training",
@@ -190,8 +191,12 @@ if __name__ == "__main__":
                         default=True)
     parser.add_argument("--n",
                         type=int,
-                        default=11869,
+                        default=0,
                         help="First index to the first generated frame.")
+    parser.add_argument("--mask",
+                        action="store_true",
+                        dest="mask",
+                        default=False)
 
     args = parser.parse_args()
 
