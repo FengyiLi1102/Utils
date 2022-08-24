@@ -1,0 +1,22 @@
+# This CITATION.cff file was generated with cffinit.
+# Visit https://bit.ly/cffinit to generate yours today!
+
+cff-version: 1.2.0
+title: Utils
+message: >-
+  If you use this software, please cite it using the
+  metadata from this file.
+type: software
+authors:
+  - family-names: Clark
+    given-names: Ronald
+    email: ronald.clark@imperial.ac.uk
+    affiliation: >-
+      Department of Computing, Imperial College
+      London
+  - given-names: Fengyi
+    family-names: Li
+    email: fengyi.li18@ic.ac.uk
+    affiliation: >-
+      Department of Computing, Imperial College
+      London
