@@ -1,5 +1,4 @@
 import argparse
-import glob
 import os
 import random
 import shutil
@@ -47,7 +46,6 @@ def main(args):
     if args.functional:
         if args.split_for_val:
             print("Start splitting the dateset for training and validating ...")
-            # val_file_path = r"/vol/bitbucket/fl4718/monodepth2/splits/clouds/val_files.txt"
             val_file_path = os.path.join(args.output_path, r"val_files.txt")
             split(file_path, val_file_path, train_file_path, 0.2)
 
@@ -67,7 +65,6 @@ def main(args):
 
 def concatenate_txt(args, file_path, txt_list=None):
     with open(file_path, 'wb') as wfd:
-        # files = sorted(glob.glob(args.txt_path))
         files = txt_list
         print(f"Find {len(files)}. Save the output file in {args.output_path}.")
         for f in files:
@@ -77,7 +74,9 @@ def concatenate_txt(args, file_path, txt_list=None):
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
+    parser = argparse.ArgumentParser("Concatenate text files into a single one with features: shuffling or splitting"
+                                     " into different files for training. This is also designed for RAFT-Stereo and"
+                                     " MonoDepth2 models.")
     parser.add_argument("--txt_path",
                         default="/vol/bitbucket/fl4718/monodepth2/splits/clouds/more",
                         type=str,

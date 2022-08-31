@@ -134,7 +134,7 @@ def main(args):
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
+    parser = argparse.ArgumentParser("Generate frames from real world videos with multiple features.")
     parser.add_argument("--video_L",
                         help="Path to all the videos from left view required to"
                              " be extracted frames",

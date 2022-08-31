@@ -1,9 +1,12 @@
+"""
+Functions used in the Uitls.
+"""
+
 import glob
 import os
 import re
 from datetime import datetime
 
-import cv2
 import numpy as onp
 from PIL import Image
 
@@ -96,31 +99,6 @@ def txt_write_rendered(filenames_txt, i_img, position):
     filenames_txt.write("\n")
 
 
-def remove_timestamp(img, direction, args):
-    if args.W == 512 and args.H == 256:
-        if direction == "L":
-            contours = onp.array([(166, 27), (169, 34), (247, 19), (245, 12)])
-        else:
-            contours = onp.array([(181, 9), (183, 12), (223, 5), (221, 2)])
-    elif args.W == 640 and args.H == 480:
-        if direction == "L":
-            contours = onp.array([(208, 52), (212, 63), (308, 34), (305, 23)])
-        else:
-            contours = onp.array([(227, 17), (229, 24), (278, 10), (276, 4)])
-    else:
-        raise ValueError
-
-    mask = onp.zeros(img.shape, dtype=onp.uint8)
-    cv2.fillPoly(mask, pts=[contours], color=(255, 255, 255))
-    mask_inv = cv2.bitwise_not(mask)
-
-    # apply the mask
-    masked_image = cv2.bitwise_and(img, mask_inv)
-
-    # save the result
-    return masked_image
-
-
 def tif_to_png(img_dir, output_dir):
     create_dir(output_dir)
     i = 0
@@ -147,6 +125,10 @@ def num_sort(input):
 
 def depth_to_disp(depth, b, f):
     return f * b / depth
+
+
+def disp_to_depth(disp, b, f):
+    return f * b / disp
 
 
 def calculate_Tcw_Twc(view):

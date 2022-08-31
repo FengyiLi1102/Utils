@@ -1,3 +1,8 @@
+"""
+Codes adapted calibration_optimize.py from Dr.Clark.
+GitHub: https://github.com/r0nn13/stereo-clouds-calibration
+"""
+
 import cv2
 import jax.numpy as jnp
 import jaxopt
@@ -101,11 +106,6 @@ def main():
         [1.3690165, 1.4032199, -0.0737519, 1.1455071, 0.09243497, -0.11357018, 0.20850165, 1.001657, 0.03703392,
          1.1190069,
          0.08403286, -0.12874132])
-
-    # err = compute_total_error(params, u_a, v_a, u_b, v_b, u_a_stars, v_a_stars, u_b_stars, v_b_stars, p_w )
-
-    # error_grad = grad(compute_total_error)
-    # delta_param = error_grad(params, u_a, v_a, u_b, v_b, u_a_stars, v_a_stars, u_b_stars, v_b_stars, p_w)
 
     maxiter = 0
     solver = jaxopt.LBFGS(fun=compute_total_error, maxiter=maxiter, tol=0.0001, verbose=True)

@@ -21,7 +21,7 @@ def main(args):
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
+    parser = argparse.ArgumentParser("Build the splitting files only provided the index range and file names.")
     parser.add_argument("--H",
                         type=int,
                         help="Height of the frame",
